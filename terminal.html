@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <title>XTerm.js terminal</title>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/xterm/css/xterm.css" />
+
+  <style>
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      width: 100%;
+      background: #000;
+      overflow: hidden;
+    }
+
+    #terminal {
+      height: 100%;
+      width: 100%;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="terminal"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/xterm/lib/xterm.js"></script>
+
+  <script>
+    const term = new Terminal({
+      cursorBlink: true,
+      fontSize: 16,
+      fontFamily: "monospace",
+      theme: {
+        background: "#000000",
+        foreground: "#ffffff",
+        cursor: "#ffffff"
+      }
+    });
+
+    term.open(document.getElementById("terminal"));
+
+    let username = "guest";
+    let hostname = "mysite";
+    let cwd = "~";
+
+    let command = "";
+    let history = [];
+    let historyIndex = -1;
+
+    function prompt() {
+      term.write(
+        `\r\n\x1b[1;32m${username}@${hostname}\x1b[0m:` +
+        `\x1b[1;34m${cwd}\x1b[0m$ `
+      );
+    }
+
+    function runCommand(cmd) {
+      const args = cmd.trim().split(" ");
+      const base = args[0];
+
+      switch (base) {
+        case "help":
+          term.write("\r\nAvailable commands: help, about, echo, clear, whoami, pwd, exit");
+          break;
+
+        case "about":
+          term.write("\r\nblah blah no about yet");
+          break;
+
+        case "whoami":
+          term.write(`\r\n${username}`);
+          break;
+
+        case "pwd":
+          term.write(`\r\n/home/${username}`);
+          break;
+
+        case "echo":
+          term.write("\r\n" + args.slice(1).join(" "));
+          break;
+
+        case "exit":
+          term.write("\r\nExiting");
+          window.location.href = "index.html"
+
+        case "clear":
+          term.clear();
+          return;
+
+        case "":
+          break;
+
+        default:
+          term.write(`\r\nbash: ${base}: command not found`);
+      }
+    }
+
+    term.write("Welcome!\r\nI thought it would be fun to add a terminal-like environment for the more tech-savvy people that end up on my page\r\nWIP");
+    prompt();
+
+    term.onKey(({key, domEvent}) => {
+      const printable =
+        !domEvent.altKey &&
+        !domEvent.ctrlKey &&
+        !domEvent.metaKey;
+
+      if (domEvent.key === "Enter") {
+        history.push(command);
+        historyIndex = history.length;
+        runCommand(command);
+        command = "";
+        prompt();
+      }
+      else if (domEvent.key === "Backspace") {
+        if (command.length > 0) {
+          command = command.slice(0, -1);
+          term.write("\b \b");
+        }
+      }
+      else if (domEvent.key === "ArrowUp") {
+        if (historyIndex > 0) {
+          historyIndex--;
+          replaceCommand(history[historyIndex]);
+        }
+      }
+      else if (domEvent.key === "ArrowDown") {
+        if (historyIndex < history.length - 1) {
+          historyIndex++;
+          replaceCommand(history[historyIndex]);
+        } else {
+          historyIndex = history.length;
+          replaceCommand("");
+        }
+      }
+      else if (printable) {
+        command += key;
+        term.write(key);
+      }
+    });
+
+    function replaceCommand(newCommand) {
+      while (command.length > 0) {
+        term.write("\b \b");
+        command = command.slice(0, -1);
+      }
+      command = newCommand;
+      term.write(command);
+    }
+
+    window.addEventListener("resize", () => {
+      term.fit?.();
+    });
+  </script>
+</body>
+
+</html>
