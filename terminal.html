@@ -63,6 +63,64 @@
         `\x1b[1;34m${cwd}\x1b[0m$ `
       );
     }
+    function daysSince(dateString) {
+      const givenDate = new Date(dateString);
+      const today = new Date();
+
+      givenDate.setHours(0, 0, 0, 0);
+      today.setHours(0, 0, 0, 0);
+
+      const diffTime = today - givenDate;
+      const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+      return `${diffDays} days`;
+    }
+
+    function printFastfetch() {
+
+      // chatgpt version of the fastfetch, looks like trash 
+      //       const fastfetchOutput =
+      //         `\r\n\x1b[1;33m        .--.\x1b[0m      \x1b[1;32mguest@mysite\x1b[0m
+      // \r\x1b[1;33m       |o_o |\x1b[0m     \x1b[1;34mOS:\x1b[0m Linux
+      // \r\x1b[1;33m       |:_/ |\x1b[0m     \x1b[1;34mShell:\x1b[0m bash
+      // \r\x1b[1;33m      //   \\ \\\\\x1b[0m   \x1b[1;34mLanguage:\x1b[0m en_US.UTF-8
+      // \r\x1b[1;33m     (|     | )\x1b[0m   \x1b[1;31m██\x1b[0m\x1b[1;32m██\x1b[0m\x1b[1;33m██\x1b[0m\x1b[1;34m██\x1b[0m\x1b[1;35m██\x1b[0m\x1b[1;36m██\x1b[0m
+      // \r\x1b[1;33m    /'\\_   _/\\\`\x1b[0m
+      // \r\x1b[1;33m    \\___)=(___/\x1b[0m
+      //
+      // `;
+
+      const fastfetchOutput = `
+
+\r         [90m #####
+\r         [90m#######
+\r         [90m##[37mO[90m#[37mO[90m##
+\r         [90m#[33m#####[90m#
+\r       [90m##[37m##[33m###[37m##[90m##
+\r      [90m#[37m##########[90m##
+\r     [90m#[37m############[90m##
+\r     [90m#[37m############[90m###
+\r    [33m##[90m#[37m###########[90m##[33m#
+\r  [33m######[90m#[37m#######[90m#[33m######
+\r  [33m#######[90m#[37m#####[90m#[33m#######
+\r    [33m#####[90m#######[33m#####[m[1G[13A[m
+\r[29C[m[90m┌──────────────────────Hardware──────────────────────┐[m
+\r[29C[m[37m│ ├OS[m[m: [mWindows 11 + WSL2( Debian 2.6.3.0 )
+\r[29C[m[37m│ ├Hobbies[m[m: [mRicing, Chess, Games, Books
+\r[29C[m[90m└────────────────────────────────────────────────────┘[m
+\r[29C[m[90m┌──────────────────────Software──────────────────────┐[m
+\r[29C[m[37m│ ├Shell[m[m: [mBash
+\r[29C[m[37m│ ├IDE[m[m: [mNeovim + Lapce ( for Windows )
+\r[29C[m[37m│ ├Favourite Language[m[m: [m C, Zigg
+\r[29C[m[90m└────────────────────────────────────────────────────┘[m
+\r[29C[m[90m┌────────────────────Age─────────────────────────────┐[m
+\r[29C[m[37m│ ├Age[m[m: [m${daysSince("2006-11-05")} ( roughly 19 years )
+\r[29C[m[37m│ ├Uptime[m[m: [m4 years of coding experience
+\r[29C[m[90m└────────────────────────────────────────────────────┘[m
+\r
+`;
+      term.write(fastfetchOutput);
+    }
 
     function runCommand(cmd) {
       const args = cmd.trim().split(" ");
@@ -70,7 +128,7 @@
 
       switch (base) {
         case "help":
-          term.write("\r\nAvailable commands: help, about, echo, clear, whoami, pwd, exit");
+          term.write("\r\nAvailable commands: help, about, echo, clear, whoami, pwd, exit, ls, cat, fastfetch.\r\nIn case you are confused simply type 'exit' to go back to the home page.");
           break;
 
         case "about":
@@ -78,23 +136,11 @@
           break;
 
         case "fastfetch":
-          const fastfetchOutput =
-`\r\n\x1b[1;33m        .--.\x1b[0m   \x1b[1;32mguest@mysite\x1b[0m
-\x1b[1;33m       |o_o |\x1b[0m   \x1b[1;34mOS:\x1b[0m Linux
-\x1b[1;33m       |:_/ |\x1b[0m   \x1b[1;34mShell:\x1b[0m bash
-\x1b[1;33m      //   \\ \\\\\x1b[0m  \x1b[1;34mLanguage:\x1b[0m en_US.UTF-8
-\x1b[1;33m     (|     | )\x1b[0m
-\x1b[1;33m    /'\\_   _/\\\`\x1b[0m
-\x1b[1;33m    \\___)=(___/\x1b[0m
-
-\x1b[1;31m██\x1b[0m\x1b[1;32m██\x1b[0m\x1b[1;33m██\x1b[0m\x1b[1;34m██\x1b[0m\x1b[1;35m██\x1b[0m\x1b[1;36m██\x1b[0m
-`;
-
-          term.write(fastfetchOutput);
+          printFastfetch();
           break;
 
         case "whoami":
-          term.write(`\r\n${username}`);
+          term.write(`\r\nLakshya Sharma, a young developer`);
           break;
 
         case "pwd":
@@ -107,7 +153,29 @@
 
         case "exit":
           term.write("\r\nExiting");
-          window.location.href = "index.html"
+          window.location.href = "index.html";
+          return;
+
+        case "ls":
+          term.write("\r\nresume.pdf    projects.txt    contact.txt");
+          return;
+
+        case "cat":
+          if (args[1] === "resume.pdf") {
+            window.location.href = "resume.pdf";
+          }
+          else if (args[1] === "projects.txt") {
+            window.location.href = "https://www.github.com/lokop5116";
+          }
+          else if (args[1] === "contact.txt") {
+            term.write("\r\nmail me at- later add more contact optiosn")
+          }
+          else {
+
+            term.write(`\r\ncat: ${args[1]}: file does not exist`);
+          }
+
+          return;
 
         case "clear":
           term.clear();
@@ -117,11 +185,24 @@
           break;
 
         default:
-          term.write(`\r\nbash: ${base}: command not found`);
+          term.write(`\r\nbash: ${base}: command not found. Use 'help' for available commands.`);
       }
     }
 
-    term.write("Welcome!\r\nI thought it would be fun to add a terminal-like environment for the more tech-savvy people that end up on my page\r\nWIP");
+    term.write(`
+╻ ╻┏━╸╻  ┏━╸┏━┓┏┳┓┏━╸╻
+\r┃╻┃┣╸ ┃  ┃  ┃ ┃┃┃┃┣╸ ╹
+\r┗┻┛┗━╸┗━╸┗━╸┗━┛╹ ╹┗━╸╹
+`);
+
+    term.write(`
+\r╺┳╸╻ ╻╻┏━┓   ╻┏━┓   ┏━┓   ╺┳╸┏━╸┏━┓┏┳┓╻┏┓╻┏━┓╻     ┏━╸┏┳┓╻ ╻╻  ┏━┓╺┳╸┏━┓┏━┓    
+\r ┃ ┣━┫┃┗━┓   ┃┗━┓   ┣━┫    ┃ ┣╸ ┣┳┛┃┃┃┃┃┗┫┣━┫┃     ┣╸ ┃┃┃┃ ┃┃  ┣━┫ ┃ ┃ ┃┣┳┛    
+\r ╹ ╹ ╹╹┗━┛   ╹┗━┛   ╹ ╹    ╹ ┗━╸╹┗╸╹ ╹╹╹ ╹╹ ╹┗━╸   ┗━╸╹ ╹┗━┛┗━╸╹ ╹ ╹ ┗━┛╹┗╸ ┛
+`)
+
+    printFastfetch();
+    term.write("type 'help' if you're confused! Or 'exit' to go back to home")
     prompt();
 
     term.onKey(({key, domEvent}) => {

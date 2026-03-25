@@ -1,11 +1,12 @@
-<html>
-
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Contact Me</title>
   <link rel="stylesheet" href="styles/main.css">
 </head>
-
 
 <body>
 
@@ -20,17 +21,120 @@
     </nav>
   </header>
 
-  <section class="content" style="max-width: 1000px; margin-top: 80px;">
+  <section class="content contact-section">
+    <h2>Get in Touch</h2>
+    <p>I'd love to hear from you! Reach out via email or connect on GitHub and LinkedIn:</p>
 
-    <h2>Contact Me</h2>
-
-    <p>You can find me at-</p>
-    <a href="mailto:lakshya6115@gmail.com">lakshya6115@gmail.com</a><br>
-    <a href="https://www.github.com/lokop5116">github</a><br>
-    <a href="https://www.linkedin.com/in/lakshya-sharma-4a7498312">LinkedIn</a><br>
-
-
+    <div class="contact-links">
+      <a href="mailto:lakshya6115@gmail.com" class="contact-card">Mail Me</a>
+      <a href="https://www.github.com/lokop5116" target="_blank" class="contact-card">GitHub</a>
+      <a href="https://www.linkedin.com/in/lakshya-sharma-4a7498312" target="_blank" class="contact-card">🔗
+        LinkedIn</a>
+    </div>
   </section>
+
 </body>
+
+<style>
+  /* Reset & Base */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+    line-height: 1.6;
+    background-color: #f4f4f4;
+    color: #333;
+  }
+
+  /* Header & Navigation (original style preserved) */
+  header {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 0;
+  }
+
+  nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+  }
+
+  nav ul li {
+    margin: 0 15px;
+  }
+
+  nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 18px;
+    transition: color 0.3s ease;
+  }
+
+  nav ul li a:hover {
+    color: #c79c5e;
+  }
+
+  /* Content Section */
+  .content {
+    max-width: 800px;
+    margin: 80px auto 40px auto;
+    padding: 40px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+
+  .content h2 {
+    font-size: 2.2em;
+    margin-bottom: 15px;
+    color: #222;
+  }
+
+  .content p {
+    font-size: 1.1em;
+    color: #555;
+    margin-bottom: 30px;
+  }
+
+  /* Contact Cards */
+  .contact-links {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+  }
+
+  .contact-card {
+    display: inline-block;
+    text-decoration: none;
+    color: #fff;
+    background: #333;
+    padding: 15px 25px;
+    border-radius: 8px;
+    font-size: 1.1em;
+    transition: all 0.3s ease;
+    width: 250px;
+    text-align: center;
+  }
+
+  .contact-card:hover {
+    background: #c79c5e;
+    color: #222;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Responsive */
+  @media (min-width: 600px) {
+    .contact-links {
+      flex-direction: row;
+    }
+  }
+</style>
 
 </html>
